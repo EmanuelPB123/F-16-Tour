@@ -11,10 +11,8 @@ AFRAME.registerComponent('custom-controls', {
     this.el.removeAttribute('wasd-controls');
 
     this.camera = this.el;
-    this.moveSpeed = 0.95;
+    this.moveSpeed = 0.1; // Scaled from 0.15 to 0.003 (1/50)
     this.currentSpeed = { x: 0, z: 0 };
-    this.raycaster = new THREE.Raycaster();
-    this.collisionDistance = 0.5;
     this.moveDirection = new THREE.Vector2(0, 0);
     this.keyboardDirection = new THREE.Vector2(0, 0);
     this.keys = {
@@ -76,23 +74,6 @@ AFRAME.registerComponent('custom-controls', {
     }, true);
 
     this.tick = AFRAME.utils.throttleTick(this.tick.bind(this), 16);
-
-    // Collision effects setup
-    this.collisionFlash = document.createElement('div');
-    this.collisionFlash.className = 'collision-flash';
-    document.body.appendChild(this.collisionFlash);
-
-    this.isColliding = false;
-    this.collisionTimeout = null;
-
-    this.collisionSounds = [
-      document.getElementById('collision-sound-1'),
-      document.getElementById('collision-sound-2'),
-      document.getElementById('collision-sound-3')
-    ];
-
-    this.lastSoundTime = 0;
-    this.soundCooldown = 500;
   },
 
   updateKeyboardDirection: function () {
@@ -106,78 +87,6 @@ AFRAME.registerComponent('custom-controls', {
     if (this.keyboardDirection.length() > 1) {
       this.keyboardDirection.normalize();
     }
-  },
-
-  playRandomCollisionSound: function () {
-    const currentTime = Date.now();
-    if (currentTime - this.lastSoundTime < this.soundCooldown) {
-      return;
-    }
-
-    const randomSound = this.collisionSounds[Math.floor(Math.random() * this.collisionSounds.length)];
-    randomSound.currentTime = 0;
-    randomSound.play().catch(error => {
-      console.log("Audio playback failed:", error);
-    });
-    this.lastSoundTime = currentTime;
-  },
-
-  showCollisionEffect: function () {
-    if (!this.isColliding) {
-      this.isColliding = true;
-      this.collisionFlash.style.opacity = '1';
-      this.playRandomCollisionSound();
-
-      if (this.collisionTimeout) {
-        clearTimeout(this.collisionTimeout);
-      }
-
-      this.collisionTimeout = setTimeout(() => {
-        this.collisionFlash.style.opacity = '0';
-        this.isColliding = false;
-      }, 150);
-    }
-  },
-
-  isInRestrictedZone: function (position) {
-    const innerRestricted = (position.x >= -1 && position.x <= 1 &&
-      position.z >= -1 && position.z <= -1);
-
-    const outsideBounds = (position.x <= -500 || position.x >= 500 ||
-      position.z <= -500 || position.z >= 500);
-
-    return innerRestricted || outsideBounds;
-  },
-
-  checkCollision: function (position, direction) {
-    const rays = [
-      direction.clone(),
-      direction.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 4),
-      direction.clone().applyAxisAngle(new THREE.Vector3(0, 1, 0), -Math.PI / 4)
-    ];
-
-    for (let rayDir of rays) {
-      this.raycaster.set(position, rayDir);
-      const collisionObjects = document.querySelectorAll('[gltf-model], [obj-model], a-plane, a-box');
-      const collisionArray = [];
-
-      collisionObjects.forEach(object => {
-        if (object.object3D) {
-          object.object3D.updateMatrixWorld();
-          object.object3D.traverse((node) => {
-            if (node.isMesh) {
-              collisionArray.push(node);
-            }
-          });
-        }
-      });
-
-      const intersects = this.raycaster.intersectObjects(collisionArray, true);
-      if (intersects.length > 0 && intersects[0].distance < this.collisionDistance) {
-        return true;
-      }
-    }
-    return false;
   },
 
   tick: function () {
@@ -201,42 +110,7 @@ AFRAME.registerComponent('custom-controls', {
       moveVector.addScaledVector(right, combinedMove.x * this.moveSpeed);
 
       const currentPosition = this.camera.object3D.position;
-      const proposedPosition = currentPosition.clone();
-      proposedPosition.add(moveVector);
-
-      if (this.isInRestrictedZone(proposedPosition)) {
-        this.showCollisionEffect();
-        return;
-      }
-
-      const xMove = new THREE.Vector3(moveVector.x, 0, 0);
-      const zMove = new THREE.Vector3(0, 0, moveVector.z);
-
-      let canMoveX = true;
-      let canMoveZ = true;
-
-      if (xMove.length() > 0) {
-        const xDir = xMove.clone().normalize();
-        if (this.checkCollision(currentPosition, xDir)) {
-          canMoveX = false;
-          this.showCollisionEffect();
-        }
-      }
-
-      if (zMove.length() > 0) {
-        const zDir = zMove.clone().normalize();
-        if (this.checkCollision(currentPosition, zDir)) {
-          canMoveZ = false;
-          this.showCollisionEffect();
-        }
-      }
-
-      if (canMoveX) {
-        currentPosition.x += moveVector.x;
-      }
-      if (canMoveZ) {
-        currentPosition.z += moveVector.z;
-      }
+      currentPosition.add(moveVector);
     }
   }
 });
