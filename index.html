@@ -1,59 +1,110 @@
 <html>
 
 <head>
-  <title>F-16 Tour</title>
-  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.10.1/nipplejs.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="js/linterna.js"></script>
-  <link rel="stylesheet" href="css/styles.css">
+    <title>F-16 Tour</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.10.1/nipplejs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/linterna.js"></script>
+    <script src="js/environment.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/led.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-  <div id="movement-controls"></div>
+    <div id="movement-controls"></div>
 
-  <!-- Audio elements for collision sounds -->
-  <audio id="collision-sound-1" src="https://cdn.freesound.org/previews/417/417089_5121236-lq.mp3"></audio>
-  <audio id="collision-sound-2" src="https://cdn.freesound.org/previews/448/448084_6142149-lq.mp3"></audio>
-  <audio id="collision-sound-3" src="https://cdn.freesound.org/previews/411/411642_5121236-lq.mp3"></audio>
+    <!-- Audio elements for collision sounds -->
+    <audio id="collision-sound-1" src="https://cdn.freesound.org/previews/417/417089_5121236-lq.mp3"></audio>
+    <audio id="collision-sound-2" src="https://cdn.freesound.org/previews/448/448084_6142149-lq.mp3"></audio>
+    <audio id="collision-sound-3" src="https://cdn.freesound.org/previews/411/411642_5121236-lq.mp3"></audio>
 
-  <a-scene>
-    <a-sky color="#000000"></a-sky>
-    <a-plane position="0 -2 0" rotation="-90 0 0" width="25" height="25"
-      material="color: #7BC8A4; roughness: 0.8; metalness: 0.2;"></a-plane>
+    <a-scene>
 
-    <!-- F-16 model scaled to 1/20 -->
-    <a-entity position="-0 0 -5" scale="0.1 0.1 0.1" gltf-model="f-16_fighting_falcon_-_fighter_jet_-_free.glb"
-      shadow="true">
-    </a-entity>
+        <a-assets>
+            <audio id="sound1" src="sound/s1.mp3" preload="auto"></audio>
+            <audio id="sound2" src="sound/s2.mp3" preload="auto"></audio>
+        </a-assets>
 
-    <!-- Text scaled to 1/20 -->
-    <a-text value="F-16 Block 15" position="-0.2 0.75 -1" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+        <!-- Sound sources with adjusted spatial properties -->
+        <a-entity id="soundEntity1" position="-3 2 -5"
+            sound="src: #sound1; positional: true; maxDistance: 0.1; refDistance: 0.05;">
+        </a-entity>
 
-    <!-- Camera and flashlight scaled to 1/20 -->
-    <a-entity position="0 0.08 0">
-      <a-camera look-controls>
-        <!-- Flashlight scaled to 1/20 -->
-        <a-entity id="flashlight" light="type: spot; 
+        <a-entity id="soundEntity2" position="-3 2 -5"
+            sound="src: #sound2; positional: true; maxDistance: 0.1; refDistance: 0.05;">
+        </a-entity>
+
+        <!-- texto -->
+        <a-entity id="textEntity" position="-3 2 -5" rotation="0 180 0"
+            text="value: Motor; align: center; width: 1; wrapCount: 10" geometry="primitive: plane; width: 0; height: 0"
+            material="color: #4CC3D9; opacity: 1; transparent: true" clickable>
+        </a-entity>
+
+
+        <a-sky color="#000000"></a-sky>
+        <a-plane position="0 -0 0" rotation="-90 0 0" width="50" height="50"
+            material="color: #7BC8A4; roughness: 0.8; metalness: 0.2;"></a-plane>
+
+        <!-- F-16 model scaled to 1/20 -->
+        <a-entity position="-0 1.5 -5" scale="0.075 0.075 0.075"
+            gltf-model="f-16_fighting_falcon_-_fighter_jet_-_free.glb" shadow="true">
+        </a-entity>
+
+        <!-- Text scaled to 1/20 -->
+        <a-text value="Siga los Leds" position="-0.5 2 2" color="#ffffff" scale="0.8 0.8 0.8" clickable></a-text>
+
+        <!-- Camera and flashlight scaled to 1/20 -->
+        <a-entity position="0 0.08 3">
+            <a-camera look-controls>
+                <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
+                    geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+                    material="color: black; shader: flat">
+                </a-entity>
+                <!-- Flashlight scaled to 1/20 -->
+                <a-entity id="flashlight" light="type: spot; 
             color: #fff; 
-            intensity: 0.75; 
-            angle: 65; 
-            penumbra: 0.15; 
-            decay: 0.15;
+            intensity: 0.7; 
+            angle: 35; 
+            penumbra: 1; 
+            decay: 0.01;
             castShadow: true;
             shadowMapWidth: 1024;
             shadowMapHeight: 1024" position="0 0 0" rotation="0 0 0">
+                </a-entity>
+
+                <!-- Flashlight visual model scaled to 1/20 -->
+                <a-entity position="0.01 -0.015 -0.01" rotation="0 -20 0">
+                    <a-cylinder color="#333" height="0.005" radius="0.001" position="0 0 0"></a-cylinder>
+                    <a-cylinder color="#555" height="0.001" radius="0.0015" position="0 -0.003 0"></a-cylinder>
+                </a-entity>
+            </a-camera>
         </a-entity>
 
-        <!-- Flashlight visual model scaled to 1/20 -->
-        <a-entity position="0.01 -0.015 -0.01" rotation="0 -20 0">
-          <a-cylinder color="#333" height="0.005" radius="0.001" position="0 0 0"></a-cylinder>
-          <a-cylinder color="#555" height="0.001" radius="0.0015" position="0 -0.003 0"></a-cylinder>
-        </a-entity>
-      </a-camera>
-    </a-entity>
-  </a-scene>
+        <a-entity led-light="color: #00ffff" position="0 0 3"></a-entity>
+        <a-entity led-light="color: #ff0000" position="0 0 2"></a-entity>
+        <a-entity led-light="color: #00ff00" position="0 0 1"></a-entity>
+        <a-entity led-light="color: #00ffff" position="0 0 -1"></a-entity>
+        <a-entity led-light="color: #ff0000" position="2 0 -2"></a-entity>
+        <a-entity led-light="color: #00ff00" position="4 0 -3"></a-entity>
+        <a-entity led-light="color: #00ffff" position="6 0 -4"></a-entity>
+        <a-entity led-light="color: #ff0000" position="8 0 -5"></a-entity>
+        <a-entity led-light="color: #00ff00" position="6 0 -6"></a-entity>
+        <a-entity led-light="color: #00ffff" position="4 0 -7"></a-entity>
+        <a-entity led-light="color: #ff0000" position="2 0 -8"></a-entity>
+        <a-entity led-light="color: #00ff00" position="0 0 -9"></a-entity>
+        <a-entity led-light="color: #00ffff" position="-2 0 -9"></a-entity>
+        <a-entity led-light="color: #ff0000" position="-4 0 -8"></a-entity>
+        <a-entity led-light="color: #00ff00" position="-6 0 -7"></a-entity>
+        <a-entity led-light="color: #00ffff" position="-6 0 -6"></a-entity>
+        <a-entity led-light="color: #ff0000" position="-6 0 -5"></a-entity>
+        <a-entity led-light="color: #00ff00" position="-6 0 -4"></a-entity>
+<!--         <a-entity led-light="color: #00ffff" position="-4 0 -3"></a-entity> -->
+<!--         <a-entity led-light="color: #ff0000" position="-2 0 -2"></a-entity> -->
+        
+        
 </body>
 
 </html>
