@@ -32,11 +32,11 @@
 
         <!-- Sound sources with adjusted spatial properties -->
         <a-entity id="soundEntity1" position="-3 2 -5"
-            sound="src: #sound1; positional: true; maxDistance: 0.9; refDistance: 0.08;">
+            sound="src: #sound1; positional: true; maxDistance: 3; refDistance: 0.7;">
         </a-entity>
 
         <a-entity id="soundEntity2" position="-3 2 -5"
-            sound="src: #sound2; positional: true; maxDistance: 0.9; refDistance: 0.08;">
+            sound="src: #sound2; positional: true; maxDistance: 3; refDistance: 0.7;">
         </a-entity>
 
         <!-- texto -->
@@ -55,6 +55,9 @@
         <!-- F-16 model scaled to 1/20 -->
         <a-entity position="-0 1.5 -5" scale="0.075 0.075 0.075"
             gltf-model="f-16_fighting_falcon_-_fighter_jet_-_free.glb" shadow="true">
+        </a-entity>
+        <a-entity position="-0 0 -5" scale="2.5 2.5 2.5" rotation="0 90 0"
+            gltf-model="aircraft_hangar.glb" shadow="true">
         </a-entity>
 
         <!-- Text scaled to 1/20 -->
