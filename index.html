@@ -6,11 +6,11 @@
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.10.1/nipplejs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<!--     <script src="js/linterna.js"></script> -->
+    <!--     <script src="js/linterna.js"></script> -->
     <script src="js/environment.js"></script>
     <script src="js/sound.js"></script>
     <script src="js/led.js"></script>
-<!--     <script src="js/phone.js"></script> -->
+    <!--     <script src="js/phone.js"></script> -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -46,8 +46,8 @@
         </a-entity>
 
         <!-- cielo -->
-        <a-sky color="#000000"></a-sky>
-
+        <!--         <a-sky color="#000000"></a-sky>
+ -->
         <!-- superficie -->
         <a-plane position="0 -0 0" rotation="-90 0 0" width="50" height="50"
             material="color: #7BC8A4; roughness: 0.8; metalness: 0.2;"></a-plane>
@@ -56,21 +56,22 @@
         <a-entity position="-0 1.5 -5" scale="0.075 0.075 0.075"
             gltf-model="f-16_fighting_falcon_-_fighter_jet_-_free.glb" shadow="true">
         </a-entity>
-        <a-entity position="-0 0 -5" scale="2.5 2.5 2.5" rotation="0 90 0"
-            gltf-model="aircraft_hangar.glb" shadow="true">
+        <a-entity position="-0 0 -5" scale="2.5 2.5 2.5" rotation="0 90 0" gltf-model="aircraft_hangar.glb"
+            shadow="true">
         </a-entity>
 
         <!-- Text scaled to 1/20 -->
-        <a-text value="Siga los Leds" position="-0.5 2 2" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+        <a-text value="Siga los Leds" position="-0.5 2 0" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
         <a-text value="Pilon punta ala derecho" position="-0.5 1.7 -1.5" color="#ffffff" scale="0.6 0.6 0.6"></a-text>
         <a-text value="Pilon ala derecho" position="1 1.7 -2" color="#ffffff" scale="0.6 0.6 0.6"></a-text>
         <a-text value="Pilon ala derecho" position="1.5 1.7 -2.7" color="#ffffff" scale="0.6 0.6 0.6"></a-text>
         <a-text value="Cabina" position="5 3 -5" color="#ffffff" scale="0.6 0.6 0.6" rotation="0 45 0"></a-text>
         <a-text value="Antena" position="7 2 -5" color="#ffffff" scale="0.6 0.6 0.6" rotation="0 90 0"></a-text>
-        <a-text value="Toma de aire" position="4.5 1 -5" color="#ffffff" scale="0.6 0.6 0.6" rotation="0 135 0"></a-text>
+        <a-text value="Toma de aire" position="4.5 1 -5" color="#ffffff" scale="0.6 0.6 0.6"
+            rotation="0 135 0"></a-text>
 
         <!-- Camera and flashlight scaled to 1/20 -->
-        <a-entity position="0 0.08 3">
+        <a-entity position="0 0.08 4">
             <a-camera look-controls>
                 <a-entity cursor="fuse: true; fuseTimeout: 500" position="0 0 -1"
                     geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
@@ -95,24 +96,40 @@
                 </a-entity>
             </a-camera>
         </a-entity>
+        <a-entity led-light="color: #0dff00" position="-0.3 1.65 -1.6">
+        </a-entity>
+        <a-entity led-light="color: #ff0000" position="-0.3 1.65 -8.45"></a-entity>
 
-        <a-entity led-light="color: #00ffff" position="0 0 3"></a-entity>
-<!--         <a-entity led-light="color: #ff0000" position="0 0 2"></a-entity>
+
+        <a-entity led-light="color: #00ffff" position="0 0 3">
+            <a-text value="1" position="0 1 0" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+        </a-entity>
+        <!--         <a-entity led-light="color: #ff0000" position="0 0 2"></a-entity>
         <a-entity led-light="color: #00ff00" position="0 0 1"></a-entity> -->
-        <a-entity led-light="color: #00ffff" position="0 0 -1"></a-entity>
-<!--         <a-entity led-light="color: #ff0000" position="2 0 -2"></a-entity>
+        <a-entity led-light="color: #00ffff" position="0 0 -1">
+            <a-text value="2" position="0 1 0" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+        </a-entity>
+        <!--         <a-entity led-light="color: #ff0000" position="2 0 -2"></a-entity>
         <a-entity led-light="color: #00ff00" position="4 0 -3"></a-entity> -->
-        <a-entity led-light="color: #00ffff" position="6 0 -4"></a-entity>
-<!--         <a-entity led-light="color: #ff0000" position="8 0 -5"></a-entity>
+        <a-entity led-light="color: #00ffff" position="6 0 -4">
+            <a-text value="3" position="0 1 0" color="#ffffff" scale="0.8 0.8 0.8"></a-text>
+        </a-entity>
+        <!--         <a-entity led-light="color: #ff0000" position="8 0 -5"></a-entity>
         <a-entity led-light="color: #00ff00" position="6 0 -6"></a-entity> -->
-        <a-entity led-light="color: #00ffff" position="4 0 -7"></a-entity>
-<!--         <a-entity led-light="color: #ff0000" position="2 0 -8"></a-entity>
+        <a-entity led-light="color: #00ffff" position="4 0 -7">
+            <a-text value="4" position="0 1 0" color="#ffffff" scale="0.8 0.8 0.8" rotation="0 90 0"></a-text>
+        </a-entity>
+        <!--         <a-entity led-light="color: #ff0000" position="2 0 -8"></a-entity>
         <a-entity led-light="color: #00ff00" position="0 0 -9"></a-entity> -->
-        <a-entity led-light="color: #00ffff" position="-2 0 -9"></a-entity>
-<!--         <a-entity led-light="color: #ff0000" position="-4 0 -8"></a-entity>
+        <a-entity led-light="color: #00ffff" position="-2 0 -9">
+            <a-text value="5" position="0 1 0" color="#ffffff" scale="0.8 0.8 0.8" rotation="0 90 0"></a-text>
+        </a-entity>
+        <!--         <a-entity led-light="color: #ff0000" position="-4 0 -8"></a-entity>
         <a-entity led-light="color: #00ff00" position="-6 0 -7"></a-entity> -->
-        <a-entity led-light="color: #00ffff" position="-6 0 -6"></a-entity>
-<!--         <a-entity led-light="color: #ff0000" position="-6 0 -5"></a-entity>
+        <a-entity led-light="color: #00ffff" position="-6 0 -6">
+            <a-text value="6" position="0 1 0" color="#ffffff" scale="0.8 0.8 0.8" rotation="0 180 0"></a-text>
+        </a-entity>
+        <!--         <a-entity led-light="color: #ff0000" position="-6 0 -5"></a-entity>
         <a-entity led-light="color: #00ff00" position="-6 0 -4"></a-entity> -->
         <!--         <a-entity led-light="color: #00ffff" position="-4 0 -3"></a-entity> -->
         <!--         <a-entity led-light="color: #ff0000" position="-2 0 -2"></a-entity> -->
